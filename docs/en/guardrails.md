@@ -2,7 +2,7 @@
 
 Official Mishu (working name) builds ship with platform policies on by default. They live in `@mishu/core` (`packages/core/src/policy/**`) and are compiled into call instructions before any campaign persona, opening, or negative prompt. A campaign can only tighten a rule. It cannot weaken a platform rule, and it cannot turn off opening AI disclosure.
 
-These policies apply to the desktop engine and to `apps/cloud`. Forks of the MIT tree are outside our control; official binaries, images, and `@mishu/*` packages keep the defaults.
+These policies apply to the desktop engine and to `apps/cloud`. Forks of the MIT tree are outside our control; official binaries, images, and `@yomoo/*` packages (not yet published; workspace names remain `@mishu/*`) keep the defaults.
 
 ## Opening AI disclosure (mandatory)
 

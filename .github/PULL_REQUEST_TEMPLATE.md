@@ -1,5 +1,3 @@
-<!-- DRAFT: pending counsel review of public legal files. -->
-
 ## Summary
 
 -

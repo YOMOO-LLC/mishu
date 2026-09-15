@@ -1,5 +1,3 @@
-<!-- DRAFT: pending counsel review -->
-
 # Contributor Covenant Code of Conduct
 
 This project adopts [Contributor Covenant](https://www.contributor-covenant.org) version 2.1, adapted for Mishu (working name) and YOMOO LLC.

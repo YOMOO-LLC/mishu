@@ -1,10 +1,8 @@
-<!-- DRAFT: pending counsel review -->
-
 # Acceptable Use Policy
 
 This Acceptable Use Policy (AUP) applies to official Mishu (working name) distributions, the public `YOMOO-LLC/mishu` repository, and Mishu Cloud. Forks that remove guardrails are outside our control; they must not use the Mishu marks (see `TRADEMARK.md`).
 
-This draft is a product constraint, not legal advice. You bring your own telephony account and your own compliance.
+This policy is a product constraint, not legal advice. You bring your own telephony account and your own compliance.
 
 ## Prohibited uses
 
@@ -19,7 +17,7 @@ You may not use official Mishu software or Cloud to:
 - Probe, disable, or bypass platform guardrails in official builds, including AI identity disclosure, calling-hours limits, DNC, and outbound-consent checks.
 - Submit contributions whose purpose is to add an abuse path (undisclosed AI, spoofed caller ID, or unconsented bulk dialing) to official source.
 
-Official builds keep AI disclosure, calling hours, DNC, and consent checks **on by default**. A campaign cannot turn disclosure off. This policy does not document, and must not be read as documenting, any way to disable disclosure.
+Official builds keep AI disclosure, calling hours, DNC, and consent checks **on by default**. A campaign cannot turn disclosure off. This policy does not document how to disable disclosure.
 
 ## Your account, your compliance
 

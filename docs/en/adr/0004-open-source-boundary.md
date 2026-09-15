@@ -12,9 +12,9 @@ Publish the engine under **MIT** in a new public GitHub repository, `YOMOO-LLC/m
 
 Working product name: **Mishu**. Copyright in contributions remains with each contributor under DCO; they license the project under MIT. Trademarks are held by **YOMOO LLC**. MIT does **not** grant trademark rights. Public materials use "Mishu (working name)" until counsel review. Do not claim the mark is registered.
 
-The public repo exists as a private empty placeholder. The first push still needs secret scanning and explicit product-owner authorization. npm scope `@mishu/*` is the intended package namespace; reservation by the owner is pending. Internal workspace packages already use `@mishu/*` with `"private": true`. Engineering does not publish to npm in this phase.
+The public repo exists as a private empty placeholder. The first push still needs secret scanning and explicit product-owner authorization. The `@mishu` npm scope is held by an inactive user account, so official packages will use `@yomoo` (`@yomoo/mishu-core`, `@yomoo/mishu-sdk`, and so on). The npm org was created 2026-09-14; packages are not yet published. Internal workspace packages stay `@mishu/*` with `"private": true`. Engineering does not publish to npm in this phase.
 
-An AI that can place phone calls has extra duty: official builds default guardrails on. Forks can delete them; we cannot stop that. Official binaries, images, and `@mishu/*` packages must not ship a silent off-switch for disclosure, and public docs must not explain how to hide that the assistant is AI.
+An AI that can place phone calls has extra duty: official builds default guardrails on. Forks can delete them; we cannot stop that. Official binaries, images, and `@yomoo/*` packages (not yet published) must not ship a silent off-switch for disclosure, and public docs must not explain how to hide that the assistant is AI.
 
 ## Context
 
@@ -54,7 +54,7 @@ Code uses the [MIT License](https://choosealicense.com/licenses/mit/). Keep the 
 - "Mishu", the logo, wordmark, and "Mishu Cloud" identify YOMOO LLC. MIT-licensed code does not include a right to release derivatives under those marks.
 - Forks and redistributions must rename and replace the logo. Nominative fair use such as "based on the Mishu engine" is allowed.
 - Do not imply a fork is official, official Cloud, or platform-reviewed.
-- Official npm packages use `@mishu/*`. Unauthorized packages must not use that scope or a confusingly similar name.
+- Official npm packages use `@yomoo/*` (not yet published). Unauthorized packages must not use that scope or a confusingly similar name. Workspace import names remain `@mishu/*`.
 
 Contributions use [DCO 1.1](https://developercertificate.org/) (`Signed-off-by`), not a CLA. CI rejects PRs without sign-off.
 
@@ -86,7 +86,7 @@ Extract order (P2 checklist; this ADR does not run it): generate a snapshot, sec
 |---|---|---|
 | Product | Mishu | Working name; YOMOO LLC holds the marks; pending counsel review |
 | GitHub | `YOMOO-LLC/mishu` | Private empty placeholder today |
-| npm | `@mishu/core`, `@mishu/sdk`, … | Scope reservation pending |
+| npm | `@yomoo/mishu-core`, `@yomoo/mishu-sdk`, … | `@mishu` is held by an inactive user; decided `@yomoo` on 2026-09-15; npm org created 2026-09-14; not yet published. Workspace names stay `@mishu/*` |
 | Hosted service | Mishu Cloud | Closed ops surface; same mark holder |
 | Personal UI | Mishu | ADR-0002 personal-product copy |
 
@@ -113,7 +113,7 @@ Private and public trees stay dual-track for a while. Do not cherry-pick private
 
 ## Invariants
 
-1. Official public source and `@mishu/*` releases default-on AI disclosure, rate/hours limits, DNC, and outbound consent. Config cannot silently disable disclosure or allow forged caller ID.
+1. Official public source and `@yomoo/*` releases (not yet published; workspace names remain `@mishu/*`) default-on AI disclosure, rate/hours limits, DNC, and outbound consent. Config cannot silently disable disclosure or allow forged caller ID.
 2. Public snapshot and git history contain no real numbers, Account SIDs, API keys, `.env`, or local SQLite user data. Example numbers are `+1555…` only.
 3. The MIT license file must not be rewritten to ban commercial use or forks. Trademark limits live only in `TRADEMARK.md`.
 4. Contributions require DCO sign-off. No CLA as a merge gate.
@@ -139,6 +139,6 @@ Private and public trees stay dual-track for a while. Do not cherry-pick private
 - Mobile open-source trigger: after public API beta, once a store build is stable and contains no secrets. Push certificates never enter the repo.
 - `1.0.0`: at least one external production integration, and `/v1` with no unannounced breaking change for a quarter.
 - `apps/cloud` in the public repo: yes, reference host only.
-- npm scope `@mishu`: pending owner reservation. Do not publish from this phase.
+- npm scope `@yomoo`: decided 2026-09-15 after `@mishu` was found held by an inactive user. Org created 2026-09-14. Do not publish from this phase. Workspace packages remain `@mishu/*`.
 - Opening AI disclosure: mandatory; campaigns cannot disable it.
 - P2 mock contract green: same `tests/contract` kit against the cloud reference host.

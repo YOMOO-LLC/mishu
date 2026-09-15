@@ -15,7 +15,7 @@ pnpm check
 
 `pnpm check` runs, in order: `pnpm lint:boundaries` (core/contracts/adapter import rules), typecheck, unit tests, desktop build, bundle boundary lint, and Playwright Electron e2e in mock mode.
 
-Baseline on the extract line: 920 unit tests (plus a few skipped), 39 e2e, 14/14 contract cases on each engine.
+Baseline on the extract line: 991 unit tests (plus a few skipped), 39 e2e, 14/14 contract cases on each engine.
 
 Bring your own Twilio and model credentials when you leave mock mode. Do not commit `.env`. Example keys live in `.env.example`. Phone numbers in fixtures are `+1555…` only.
 

@@ -5,13 +5,20 @@
   "type": "module",
   "description": "Mishu (working name) — local-first AI secretary engine by YOMOO LLC.",
   "packageManager": "pnpm@11.5.2",
+  "bin": {
+    "mishu": "apps/cli/mishu.mjs"
+  },
   "scripts": {
     "lint:boundaries": "node scripts/check-core-imports.mjs",
     "typecheck": "tsc --noEmit -p apps/desktop/tsconfig.node.json && tsc --noEmit -p apps/desktop/tsconfig.web.json",
     "test": "vitest run --passWithNoTests",
     "test:contract": "vitest run --config tests/contract/vitest.config.ts",
     "test:contract:cloud": "node apps/cloud/scripts/run-contract.mjs",
-    "check": "pnpm lint:boundaries && pnpm typecheck && pnpm test && pnpm test:contract:cloud"
+    "check": "pnpm lint:boundaries && pnpm typecheck && pnpm test && pnpm test:contract:cloud",
+    "dev": "pnpm --filter @mishu/desktop dev",
+    "dev:twilio": "pnpm --filter @mishu/desktop dev:twilio",
+    "cloud": "tsx apps/cloud/src/index.ts",
+    "release": "pnpm --filter @mishu/desktop release"
   },
   "dependencies": {
     "@mishu/adapters-cloud": "workspace:*",
@@ -25,7 +32,8 @@
     "react-dom": "19.2.8",
     "twilio": "6.1.0",
     "ws": "8.21.3",
-    "zod": "4.5.4"
+    "zod": "4.5.4",
+    "@mishu/cli": "workspace:*"
   },
   "devDependencies": {
     "@electron/asar": "3.4.1",

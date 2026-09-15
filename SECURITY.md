@@ -1,5 +1,3 @@
-<!-- DRAFT: pending counsel review -->
-
 # Security policy
 
 ## Reporting a vulnerability
@@ -51,4 +49,4 @@ The following are treated as **high severity** when they affect official builds:
 
 ## Response
 
-This draft does not promise an SLA. Until counsel review, expect an acknowledgement when a maintainer is available, and a fix or documented exception before the next official preview. 0.x releases may include breaking changes; security fixes will still be described in the changelog without reproducing exploit steps.
+This policy does not promise an SLA. Expect an acknowledgement when a maintainer is available, and a fix or documented exception before the next official preview. 0.x releases may include breaking changes; security fixes will still be described in the changelog without reproducing exploit steps.

@@ -4,8 +4,6 @@ Thank you for contributing. This repository is the MIT-licensed engine, contract
 
 Please read `AUP.md`, `CODE_OF_CONDUCT.md`, and `TRADEMARK.md` first. Security reports go to `SECURITY.md`, never to a public issue.
 
-These contribution rules are drafts pending counsel review of the public legal files.
-
 ## Developer Certificate of Origin
 
 Every commit must be signed off under [DCO 1.1](https://developercertificate.org/):

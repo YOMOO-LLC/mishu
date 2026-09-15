@@ -1,10 +1,10 @@
-<!-- DRAFT: pending counsel review -->
-
 # Trademark notice
 
-**Mishu (working name)** is a product name of YOMOO LLC. It is not claimed as a registered trademark in this draft. Counsel review is pending before any public registration claim.
+**Mishu (working name)** is a product name of YOMOO LLC. This file does not claim that the name is a registered trademark. Trademark clearance and any later registration are separate from these files.
 
-The MIT License covers copyright in the source code. It does **not** grant trademark rights. The name "Mishu", the Mishu logo and wordmark, "Mishu Cloud", and the `@mishu` npm scope are identifiers of YOMOO LLC.
+The MIT License covers copyright in the source code. It does **not** grant trademark rights. The name "Mishu", the Mishu logo and wordmark, "Mishu Cloud", and the `@yomoo` npm scope are identifiers of YOMOO LLC.
+
+Workspace packages in this repository are named `@mishu/*` (`"private": true`). That is an internal import path. Official published packages, when they exist, will use the `@yomoo` scope (for example `@yomoo/mishu-core` and `@yomoo/mishu-sdk`). They are not yet published. The `@mishu` npm scope is held by an unrelated inactive account and is not used for official releases.
 
 ## What you may do
 
@@ -14,7 +14,7 @@ The MIT License covers copyright in the source code. It does **not** grant trade
 
 ## What you must not do
 
-- Use "Mishu", confusingly similar names, the logo, or the `@mishu` npm scope for unofficial builds, forks, hosted services, or package names.
+- Use "Mishu", confusingly similar names, the logo, or the `@yomoo` npm scope for unofficial builds, forks, hosted services, or package names.
 - Imply that a fork, binary, or cloud offering is an official YOMOO LLC release, an official Mishu Cloud tenant, or a platform-reviewed connector.
 - Combine the marks with your own branding in a way that suggests endorsement, certification, or a quality-control relationship that does not exist.
 

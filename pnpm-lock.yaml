@@ -14,6 +14,9 @@ importers:
       '@mishu/adapters-mock':
         specifier: workspace:*
         version: link:packages/adapters-mock
+      '@mishu/cli':
+        specifier: workspace:*
+        version: link:apps/cli
       '@mishu/contracts':
         specifier: workspace:*
         version: link:packages/contracts
