@@ -1,0 +1,188 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mishu Foundation API Draft",
+    "version": "0.1.0-draft",
+    "description": "Normative design draft for the local/cloud call-engine foundation. This file is not an implemented compatibility promise."
+  },
+  "servers": [
+    { "url": "http://127.0.0.1:{port}", "description": "Local desktop", "variables": { "port": { "default": "8788" } } },
+    { "url": "https://api.example.invalid", "description": "Cloud placeholder" }
+  ],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/lines": {
+      "get": { "operationId": "listLines", "x-origin": "new", "x-deployment": "both", "summary": "List tenant-visible lines", "responses": { "200": { "$ref": "#/components/responses/LineList" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "post": { "operationId": "provisionLine", "x-origin": "new", "x-deployment": "cloud-only", "summary": "Request line provisioning", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/LineCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedLine" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/lines/{lineId}": {
+      "parameters": [{ "$ref": "#/components/parameters/LineId" }],
+      "get": { "operationId": "getLine", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/Line" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "patch": { "operationId": "updateLine", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LinePatch" } } } }, "responses": { "202": { "$ref": "#/components/responses/AcceptedLine" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/assistants": {
+      "get": { "operationId": "listAssistants", "x-origin": "renamed:get_campaigns", "x-deployment": "both", "summary": "List assistants; local campaigns map to this resource", "responses": { "200": { "$ref": "#/components/responses/AssistantList" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "post": { "operationId": "createAssistant", "x-origin": "renamed:post_campaigns", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/AssistantCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedAssistant" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/assistants/{assistantId}": {
+      "parameters": [{ "$ref": "#/components/parameters/AssistantId" }],
+      "get": { "operationId": "getAssistant", "x-origin": "renamed:get_campaigns_id", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/Assistant" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "patch": { "operationId": "updateAssistant", "x-origin": "renamed:put_campaigns_id", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AssistantPatch" } } } }, "responses": { "202": { "$ref": "#/components/responses/AcceptedAssistant" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/assistants/{assistantId}/knowledge": {
+      "parameters": [{ "$ref": "#/components/parameters/AssistantId" }],
+      "get": { "operationId": "listAssistantKnowledge", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/KnowledgeList" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "post": { "operationId": "createAssistantKnowledge", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/KnowledgeCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedKnowledge" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/assistants/{assistantId}/authority": {
+      "parameters": [{ "$ref": "#/components/parameters/AssistantId" }],
+      "get": { "operationId": "getAssistantAuthority", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/Authority" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "put": { "operationId": "replaceAssistantAuthority", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/AuthorityReplace" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedAuthority" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/devices": {
+      "get": { "operationId": "listDevices", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/DeviceList" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "post": { "operationId": "registerDevice", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/DeviceCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedDevice" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/devices/{deviceId}/availability": {
+      "parameters": [{ "$ref": "#/components/parameters/DeviceId" }],
+      "put": { "operationId": "setDeviceAvailability", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/AvailabilityReplace" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedDevice" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/calls": {
+      "get": { "operationId": "listCallsFoundation", "x-origin": "existing:get_calls", "x-deployment": "both", "summary": "List calls with line, assistant, leg, and disposition summaries", "responses": { "200": { "$ref": "#/components/responses/CallList" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/calls/{callId}": {
+      "parameters": [{ "$ref": "#/components/parameters/CallId" }],
+      "get": { "operationId": "getCallFoundation", "x-origin": "existing:get_calls_id", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/Call" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/calls/{callId}/escalations": {
+      "parameters": [{ "$ref": "#/components/parameters/CallId" }],
+      "post": { "operationId": "createEscalation", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/EscalationCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedEscalation" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/calls/{callId}/handoffs": {
+      "parameters": [{ "$ref": "#/components/parameters/CallId" }],
+      "post": { "operationId": "createHandoff", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/HandoffCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedHandoff" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/handoffs/{handoffId}": {
+      "parameters": [{ "$ref": "#/components/parameters/HandoffId" }],
+      "get": { "operationId": "getHandoff", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/Handoff" }, "default": { "$ref": "#/components/responses/Error" } } },
+      "patch": { "operationId": "updateHandoff", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HandoffPatch" } } } }, "responses": { "202": { "$ref": "#/components/responses/AcceptedHandoff" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/messages": {
+      "get": { "operationId": "listMessages", "x-origin": "new", "x-deployment": "both", "responses": { "200": { "$ref": "#/components/responses/MessageList" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/messages/{messageId}": {
+      "parameters": [{ "$ref": "#/components/parameters/MessageId" }],
+      "patch": { "operationId": "updateMessage", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MessagePatch" } } } }, "responses": { "202": { "$ref": "#/components/responses/AcceptedMessage" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/calls/{callId}/feedback": {
+      "parameters": [{ "$ref": "#/components/parameters/CallId" }],
+      "post": { "operationId": "createCallFeedback", "x-origin": "new", "x-deployment": "both", "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }], "requestBody": { "$ref": "#/components/requestBodies/FeedbackCreate" }, "responses": { "202": { "$ref": "#/components/responses/AcceptedFeedback" }, "default": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/events": {
+      "get": { "operationId": "streamEvents", "x-origin": "new", "x-deployment": "both", "summary": "Resume-capable tenant event stream", "parameters": [{ "name": "Last-Event-ID", "in": "header", "required": false, "schema": { "type": "string" } }], "responses": { "200": { "description": "Server-sent events; each data field is an EventEnvelope", "headers": { "Cache-Control": { "schema": { "type": "string", "const": "no-cache" } } }, "content": { "text/event-stream": { "schema": { "type": "string" }, "example": "id: evt_01JEXAMPLE\nevent: call.updated\ndata: {\"id\":\"evt_01JEXAMPLE\",\"type\":\"call.updated\",\"tenantId\":\"tenant_local\",\"occurredAt\":\"2026-09-12T12:00:00Z\",\"data\":{\"callId\":\"call_01JEXAMPLE\"}}\n\n" } } }, "default": { "$ref": "#/components/responses/Error" } } }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "description": "Cloud API key or local loopback bearer token. The credential resolves to tenantId and scopes; credentials are never accepted in query strings." }
+    },
+    "parameters": {
+      "IdempotencyKey": { "name": "Idempotency-Key", "in": "header", "required": true, "schema": { "type": "string", "minLength": 8, "maxLength": 255 } },
+      "LineId": { "name": "lineId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^line_" } },
+      "AssistantId": { "name": "assistantId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^asst_" } },
+      "DeviceId": { "name": "deviceId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^dev_" } },
+      "CallId": { "name": "callId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^call_" } },
+      "HandoffId": { "name": "handoffId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^handoff_" } },
+      "MessageId": { "name": "messageId", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^msg_" } }
+    },
+    "requestBodies": {
+      "LineCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LineCreate" } } } },
+      "AssistantCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AssistantCreate" } } } },
+      "KnowledgeCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KnowledgeCreate" } } } },
+      "AuthorityReplace": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthorityPolicy" } } } },
+      "DeviceCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DeviceCreate" } } } },
+      "AvailabilityReplace": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DeviceAvailability" } } } },
+      "EscalationCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EscalationCreate" } } } },
+      "HandoffCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HandoffCreate" } } } },
+      "FeedbackCreate": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FeedbackCreate" } } } }
+    },
+    "responses": {
+      "Error": { "description": "Error envelope", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorEnvelope" } } } },
+      "Line": { "description": "Line", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Line" } } } },
+      "LineList": { "description": "Lines", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Line" } } } } } } },
+      "Assistant": { "description": "Assistant", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Assistant" } } } },
+      "AssistantList": { "description": "Assistants", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Assistant" } } } } } } },
+      "KnowledgeList": { "description": "Knowledge entries", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/KnowledgeEntry" } } } } } } },
+      "Authority": { "description": "Authority policy", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthorityPolicy" } } } },
+      "DeviceList": { "description": "Devices", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Device" } } } } } } },
+      "Call": { "description": "Call", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Call" } } } },
+      "CallList": { "description": "Calls", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Call" } } } } } } },
+      "Handoff": { "description": "Handoff", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Handoff" } } } },
+      "MessageList": { "description": "Messages", "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Message" } } } } } } },
+      "AcceptedLine": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedAssistant": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedKnowledge": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedAuthority": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedDevice": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedEscalation": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedHandoff": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedMessage": { "$ref": "#/components/responses/Accepted" },
+      "AcceptedFeedback": { "$ref": "#/components/responses/Accepted" },
+      "Accepted": { "description": "Mutation accepted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AcceptedMutation" } } } }
+    },
+    "schemas": {
+      "TenantOwned": { "type": "object", "required": ["tenantId"], "properties": { "tenantId": { "type": "string", "example": "tenant_local", "readOnly": true } } },
+      "Line": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "e164", "status"], "properties": { "id": { "type": "string", "example": "line_01JEXAMPLE" }, "e164": { "type": "string", "pattern": "^\\+[1-9]\\d{1,14}$", "example": "+15550100101" }, "status": { "type": "string", "enum": ["pending", "active", "suspended", "released"] }, "assistantId": { "type": ["string", "null"] }, "providerRef": { "type": ["string", "null"], "readOnly": true } } }] },
+      "LineCreate": { "type": "object", "required": ["countryCode", "capabilities"], "properties": { "countryCode": { "type": "string", "example": "US" }, "areaCode": { "type": "string", "example": "555" }, "capabilities": { "type": "array", "items": { "type": "string", "enum": ["voice", "sms"] }, "minItems": 1 }, "assistantId": { "type": ["string", "null"] } } },
+      "LinePatch": { "type": "object", "minProperties": 1, "properties": { "assistantId": { "type": ["string", "null"] }, "status": { "type": "string", "enum": ["active", "suspended"] } } },
+      "Assistant": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "name", "systemPrompt", "voice", "direction"], "properties": { "id": { "type": "string", "example": "asst_01JEXAMPLE" }, "legacyCampaignId": { "type": ["string", "null"], "description": "Local compatibility mapping only" }, "name": { "type": "string" }, "systemPrompt": { "type": "string" }, "voice": { "type": "string" }, "direction": { "type": "string", "enum": ["inbound", "outbound", "both"] }, "disclosureText": { "type": "string" } } }] },
+      "AssistantCreate": { "type": "object", "required": ["name", "systemPrompt", "voice", "direction"], "properties": { "name": { "type": "string" }, "systemPrompt": { "type": "string" }, "voice": { "type": "string" }, "direction": { "type": "string", "enum": ["inbound", "outbound", "both"] }, "disclosureText": { "type": "string" } } },
+      "AssistantPatch": { "type": "object", "minProperties": 1, "properties": { "name": { "type": "string" }, "systemPrompt": { "type": "string" }, "voice": { "type": "string" }, "direction": { "type": "string", "enum": ["inbound", "outbound", "both"] }, "disclosureText": { "type": "string" } } },
+      "KnowledgeEntry": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "assistantId", "kind", "content", "priority"], "properties": { "id": { "type": "string", "example": "know_01JEXAMPLE" }, "assistantId": { "type": "string" }, "kind": { "type": "string", "enum": ["fact", "instruction", "faq"] }, "content": { "type": "string", "maxLength": 8000 }, "priority": { "type": "integer", "minimum": 0, "maximum": 100 }, "expiresAt": { "type": ["string", "null"], "format": "date-time" } } }] },
+      "KnowledgeCreate": { "type": "object", "required": ["kind", "content", "priority"], "properties": { "kind": { "type": "string", "enum": ["fact", "instruction", "faq"] }, "content": { "type": "string", "maxLength": 8000 }, "priority": { "type": "integer", "minimum": 0, "maximum": 100 }, "expiresAt": { "type": ["string", "null"], "format": "date-time" } } },
+      "AuthorityPolicy": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["assistantId", "version", "rules", "defaultDecision"], "properties": { "assistantId": { "type": "string" }, "version": { "type": "integer", "minimum": 1 }, "defaultDecision": { "type": "string", "enum": ["deny", "ask", "allow"] }, "rules": { "type": "array", "items": { "$ref": "#/components/schemas/AuthorityRule" } } } }] },
+      "AuthorityRule": { "type": "object", "required": ["action", "decision"], "properties": { "action": { "type": "string", "example": "appointment.create" }, "decision": { "type": "string", "enum": ["deny", "ask", "allow"] }, "constraints": { "type": "object", "additionalProperties": true }, "reason": { "type": "string" } } },
+      "Device": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "kind", "availability"], "properties": { "id": { "type": "string", "example": "dev_01JEXAMPLE" }, "kind": { "type": "string", "enum": ["desktop", "ios", "android", "sip", "pstn"] }, "displayName": { "type": "string" }, "availability": { "$ref": "#/components/schemas/DeviceAvailability" }, "pushTokenRef": { "type": ["string", "null"], "writeOnly": true } } }] },
+      "DeviceCreate": { "type": "object", "required": ["kind", "displayName"], "properties": { "kind": { "type": "string", "enum": ["desktop", "ios", "android", "sip", "pstn"] }, "displayName": { "type": "string" }, "pushToken": { "type": "string", "writeOnly": true } } },
+      "DeviceAvailability": { "type": "object", "required": ["state"], "properties": { "state": { "type": "string", "enum": ["available", "busy", "do_not_disturb", "offline"] }, "until": { "type": ["string", "null"], "format": "date-time" } } },
+      "Call": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "direction", "status", "legs"], "properties": { "id": { "type": "string", "example": "call_01JEXAMPLE" }, "lineId": { "type": ["string", "null"] }, "assistantId": { "type": "string" }, "direction": { "type": "string", "enum": ["inbound", "outbound"] }, "status": { "type": "string", "enum": ["queued", "ringing", "active", "handoff", "completed", "failed"] }, "startedAt": { "type": ["string", "null"], "format": "date-time" }, "endedAt": { "type": ["string", "null"], "format": "date-time" }, "legs": { "type": "array", "items": { "$ref": "#/components/schemas/CallLeg" } }, "disposition": { "oneOf": [{ "$ref": "#/components/schemas/Disposition" }, { "type": "null" }] } } }] },
+      "CallLeg": { "type": "object", "required": ["id", "kind", "status"], "properties": { "id": { "type": "string", "example": "leg_01JEXAMPLE" }, "kind": { "type": "string", "enum": ["caller", "assistant", "human", "conference"] }, "status": { "type": "string", "enum": ["pending", "ringing", "connected", "held", "completed", "failed"] }, "deviceId": { "type": ["string", "null"] }, "providerRef": { "type": ["string", "null"], "readOnly": true }, "connectedAt": { "type": ["string", "null"], "format": "date-time" }, "endedAt": { "type": ["string", "null"], "format": "date-time" } } },
+      "Disposition": { "type": "object", "required": ["code", "actor", "reasonCodes", "recordedAt"], "properties": { "code": { "type": "string", "enum": ["handled", "blocked", "message_taken", "escalated", "transferred"] }, "actor": { "type": "string", "enum": ["assistant", "owner", "system"] }, "reasonCodes": { "type": "array", "items": { "type": "string" } }, "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }, "notes": { "type": "string", "maxLength": 4000 }, "recordedAt": { "type": "string", "format": "date-time" } } },
+      "Escalation": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "callId", "reasonCode", "status"], "properties": { "id": { "type": "string", "example": "esc_01JEXAMPLE" }, "callId": { "type": "string" }, "reasonCode": { "$ref": "#/components/schemas/EscalationReason" }, "status": { "type": "string", "enum": ["requested", "routing", "offered", "resolved", "failed"] }, "detail": { "type": "string", "maxLength": 2000 } } }] },
+      "EscalationCreate": { "type": "object", "required": ["reasonCode"], "properties": { "reasonCode": { "$ref": "#/components/schemas/EscalationReason" }, "detail": { "type": "string", "maxLength": 2000 } } },
+      "EscalationReason": { "type": "string", "enum": ["caller_requested", "authority_required", "safety_risk", "low_confidence", "tool_failure", "policy_required", "other"] },
+      "Handoff": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "callId", "mode", "status"], "properties": { "id": { "type": "string", "example": "handoff_01JEXAMPLE" }, "callId": { "type": "string" }, "escalationId": { "type": ["string", "null"] }, "mode": { "type": "string", "enum": ["warm", "cold", "message"] }, "targetDeviceIds": { "type": "array", "items": { "type": "string" } }, "status": { "type": "string", "enum": ["requested", "offered", "accepted", "bridging", "connected", "declined", "timed_out", "failed", "completed"] }, "summary": { "type": "string", "maxLength": 4000 } } }] },
+      "HandoffCreate": { "type": "object", "required": ["mode", "targetDeviceIds"], "properties": { "escalationId": { "type": ["string", "null"] }, "mode": { "type": "string", "enum": ["warm", "cold", "message"] }, "targetDeviceIds": { "type": "array", "items": { "type": "string" } }, "summary": { "type": "string", "maxLength": 4000 } } },
+      "HandoffPatch": { "type": "object", "required": ["decision"], "properties": { "decision": { "type": "string", "enum": ["accept", "decline", "complete"] }, "deviceId": { "type": ["string", "null"] }, "note": { "type": "string", "maxLength": 1000 } } },
+      "Message": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "callId", "status", "body", "createdAt"], "properties": { "id": { "type": "string", "example": "msg_01JEXAMPLE" }, "callId": { "type": "string" }, "from": { "type": "string", "example": "+15550100101" }, "body": { "type": "string", "maxLength": 4000 }, "status": { "type": "string", "enum": ["new", "acknowledged", "resolved"] }, "createdAt": { "type": "string", "format": "date-time" } } }] },
+      "MessagePatch": { "type": "object", "required": ["status"], "properties": { "status": { "type": "string", "enum": ["acknowledged", "resolved"] } } },
+      "Feedback": { "allOf": [{ "$ref": "#/components/schemas/TenantOwned" }, { "type": "object", "required": ["id", "callId", "rating", "createdAt"], "properties": { "id": { "type": "string", "example": "feedback_01JEXAMPLE" }, "callId": { "type": "string" }, "rating": { "type": "string", "enum": ["positive", "negative"] }, "reasonCodes": { "type": "array", "items": { "type": "string" } }, "comment": { "type": "string", "maxLength": 2000 }, "createdAt": { "type": "string", "format": "date-time" } } }] },
+      "FeedbackCreate": { "type": "object", "required": ["rating"], "properties": { "rating": { "type": "string", "enum": ["positive", "negative"] }, "reasonCodes": { "type": "array", "items": { "type": "string" } }, "comment": { "type": "string", "maxLength": 2000 } } },
+      "EventEnvelope": { "type": "object", "required": ["id", "type", "tenantId", "occurredAt", "data"], "properties": { "id": { "type": "string", "example": "evt_01JEXAMPLE" }, "type": { "type": "string", "enum": ["call.created", "call.updated", "call.transcript", "call.triaged", "call.escalated", "call.dispositioned", "handoff.requested", "handoff.offered", "handoff.accepted", "handoff.connected", "handoff.declined", "handoff.failed", "message.taken", "message.updated", "device.availability_changed", "feedback.created"] }, "tenantId": { "type": "string" }, "occurredAt": { "type": "string", "format": "date-time" }, "data": { "oneOf": [{ "$ref": "#/components/schemas/CallTriagedEventData" }, { "$ref": "#/components/schemas/CallEscalatedEventData" }, { "$ref": "#/components/schemas/HandoffEventData" }, { "$ref": "#/components/schemas/MessageTakenEventData" }, { "type": "object", "additionalProperties": true }] } } },
+      "CallTriagedEventData": { "type": "object", "required": ["callId", "disposition"], "properties": { "callId": { "type": "string" }, "disposition": { "$ref": "#/components/schemas/Disposition" } } },
+      "CallEscalatedEventData": { "type": "object", "required": ["callId", "escalationId", "reasonCode"], "properties": { "callId": { "type": "string" }, "escalationId": { "type": "string" }, "reasonCode": { "$ref": "#/components/schemas/EscalationReason" }, "urgency": { "type": "string", "enum": ["low", "normal", "high", "critical"] } } },
+      "HandoffEventData": { "type": "object", "required": ["callId", "handoffId", "status"], "properties": { "callId": { "type": "string" }, "handoffId": { "type": "string" }, "status": { "type": "string", "enum": ["requested", "offered", "accepted", "connected", "declined", "failed"] }, "deviceId": { "type": ["string", "null"] }, "reasonCode": { "type": ["string", "null"] } } },
+      "MessageTakenEventData": { "type": "object", "required": ["callId", "messageId", "urgency"], "properties": { "callId": { "type": "string" }, "messageId": { "type": "string" }, "urgency": { "type": "string", "enum": ["low", "normal", "high", "critical"] } } },
+      "WebhookEvent": { "allOf": [{ "$ref": "#/components/schemas/EventEnvelope" }, { "type": "object", "required": ["deliveryAttempt"], "properties": { "deliveryAttempt": { "type": "integer", "minimum": 1 }, "signatureVersion": { "type": "string", "const": "v1" } } }] },
+      "AcceptedMutation": { "type": "object", "required": ["id", "status"], "properties": { "id": { "type": "string", "description": "Resource or operation identifier" }, "status": { "type": "string", "const": "accepted" } } },
+      "ErrorEnvelope": { "type": "object", "required": ["error"], "additionalProperties": false, "properties": { "error": { "type": "object", "required": ["code", "message"], "additionalProperties": false, "properties": { "code": { "type": "string", "example": "AUTHORITY_REQUIRED" }, "message": { "type": "string" }, "details": {} } } } }
+    }
+  },
+  "x-scope-catalog": {
+    "lines:read": "Read lines",
+    "lines:write": "Provision or configure lines",
+    "assistants:read": "Read assistants, knowledge, and authority",
+    "assistants:write": "Change assistants, knowledge, or authority",
+    "devices:read": "Read devices and availability",
+    "devices:write": "Register devices or change availability",
+    "calls:read": "Read calls and messages",
+    "calls:write": "Create escalations, handoffs, dispositions, and feedback",
+    "events:read": "Open the realtime event stream"
+  },
+  "x-webhook-contract": {
+    "contentType": "application/json",
+    "schema": { "$ref": "#/components/schemas/WebhookEvent" },
+    "signatureHeaders": ["X-Mishu-Signature", "X-Mishu-Event", "X-Mishu-Delivery-Id"],
+    "delivery": "At least once; consumers deduplicate by EventEnvelope.id"
+  }
+}

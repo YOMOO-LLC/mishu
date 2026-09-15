@@ -1,0 +1,18 @@
+{
+  "name": "@mishu/cloud",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Headless single-tenant reference host for the same /v1 engine.",
+  "bin": {
+    "mishu-cloud": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@mishu/adapters-mock": "workspace:*",
+    "@mishu/contracts": "workspace:*",
+    "@mishu/core": "workspace:*"
+  }
+}

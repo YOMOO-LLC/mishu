@@ -1,0 +1,18 @@
+{
+  "name": "@mishu/adapters-cloud",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./voice": "./src/voice.ts",
+    "./telephony": "./src/telephony.ts",
+    "./model": "./src/model.ts",
+    "./testing": "./src/testing.ts"
+  },
+  "dependencies": {
+    "@mishu/contracts": "workspace:*",
+    "@mishu/core": "workspace:*",
+    "twilio": "6.1.0"
+  }
+}

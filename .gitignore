@@ -1,0 +1,10 @@
+node_modules/
+out/
+release/
+dist/
+playwright-report/
+test-results/
+.playwright-cli/
+.env
+.DS_Store
+*.tsbuildinfo

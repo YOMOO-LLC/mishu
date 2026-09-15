@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+  - apps/*
+
+allowBuilds:
+  electron: true
+  esbuild: true
+  sharp: false
+  # Windows-only electron-builder helper. We ship macOS arm64 DMGs, so skip its build scripts.
+  electron-winstaller: false

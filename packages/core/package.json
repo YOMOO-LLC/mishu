@@ -1,0 +1,20 @@
+{
+  "name": "@mishu/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tenant": "./src/tenant.ts",
+    "./clock": "./src/clock.ts",
+    "./policy": "./src/policy.ts",
+    "./knowledge": "./src/knowledge.ts",
+    "./hangup": "./src/hangup.ts",
+    "./handoff": "./src/handoff.ts",
+    "./ports": "./src/ports.ts",
+    "./caller-input": "./src/caller-input.ts"
+  },
+  "dependencies": {
+    "@mishu/contracts": "workspace:*"
+  }
+}

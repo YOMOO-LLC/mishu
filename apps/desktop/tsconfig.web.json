@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@renderer/*": [
+        "./src/renderer/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@mishu/contracts": [
+        "../../packages/contracts/src/index.ts"
+      ],
+      "@mishu/core": [
+        "../../packages/core/src/index.ts"
+      ],
+      "@mishu/core/*": [
+        "../../packages/core/src/*.ts"
+      ],
+      "@mishu/adapters-cloud": [
+        "../../packages/adapters-cloud/src/index.ts"
+      ],
+      "@mishu/adapters-cloud/*": [
+        "../../packages/adapters-cloud/src/*.ts"
+      ],
+      "@mishu/adapters-mock": [
+        "../../packages/adapters-mock/src/index.ts"
+      ],
+      "@mishu/adapters-mock/*": [
+        "../../packages/adapters-mock/src/*.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/renderer/**/*.ts",
+    "src/renderer/**/*.tsx",
+    "src/shared/**/*.ts",
+    "../../packages/**/*.ts"
+  ],
+  "exclude": [
+    "../../packages/**/*.test.ts"
+  ]
+}

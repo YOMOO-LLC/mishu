@@ -1,0 +1,51 @@
+{
+  "name": "@mishu/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mishu desktop local-engine host (Electron).",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "dev:twilio": "tsx server/index.ts",
+    "build": "electron-vite build",
+    "release": "pnpm build && electron-builder --mac --arm64 --publish never && codesign --verify --deep --strict --verbose=2 \"release/mac-arm64/Mishu.app\"",
+    "release:dir": "pnpm build && electron-builder --mac dir --arm64 --publish never",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "playwright test",
+    "test:e2e:stress": "node scripts/e2e-stress.mjs"
+  },
+  "dependencies": {
+    "@mishu/adapters-cloud": "workspace:*",
+    "@mishu/adapters-mock": "workspace:*",
+    "@mishu/contracts": "workspace:*",
+    "@mishu/core": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@twilio/voice-sdk": "2.18.4",
+    "dotenv": "17.4.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "twilio": "6.1.0",
+    "ws": "8.21.3",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@electron/asar": "3.4.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/ws": "8.18.1",
+    "@vitejs/plugin-react": "5.2.0",
+    "electron": "44.2.0",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vite": "7.3.6",
+    "vitest": "5.0.0"
+  },
+  "packageManager": "pnpm@11.5.2"
+}

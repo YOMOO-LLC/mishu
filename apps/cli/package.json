@@ -1,0 +1,10 @@
+{
+  "name": "@mishu/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "mishu CLI client of the Mishu /v1 contract.",
+  "bin": {
+    "mishu": "./mishu.mjs"
+  }
+}

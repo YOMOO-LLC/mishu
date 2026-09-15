@@ -1,0 +1,63 @@
+name: Connector proposal
+description: Propose an MCP connector (external tool server) for the Mishu (working name) engine.
+title: "[connector] "
+labels: ["connector"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Connectors are MCP servers. They are not a second plugin ABI.
+        Official OAuth connectors stay on hosted Mishu Cloud until they pass platform review.
+        See CONTRIBUTING.md and ADR-0003.
+  - type: input
+    id: name
+    attributes:
+      label: Connector name
+      placeholder: example-home-assistant
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: MCP server source
+      description: Official signed release, fixed HTTPS URL, or loopback-only process. How is it authenticated?
+    validations:
+      required: true
+  - type: textarea
+    id: tools
+    attributes:
+      label: Tools
+      description: List each tool name, what it does, and its risk class (observe / low / medium / high).
+      placeholder: |
+        lights.set  — low — toggle a pre-registered light
+        lock.open   — high — requires Owner app step-up
+    validations:
+      required: true
+  - type: dropdown
+    id: review
+    attributes:
+      label: Platform review
+      options:
+        - Loopback or mock only (no OAuth)
+        - Needs official OAuth / Cloud allowlist
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: approval
+    attributes:
+      label: Approval and identity
+      description: Which tools require Owner approval? Confirm that caller ID match is never treated as Owner identity for high-risk actions.
+    validations:
+      required: true
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: Confirm
+      options:
+        - label: Tests will run in mock mode with +1555… numbers and will not call production third-party APIs.
+          required: true
+        - label: This connector will not impersonate a human or skip AI disclosure.
+          required: true
+        - label: I have read AUP.md and TRADEMARK.md.
+          required: true

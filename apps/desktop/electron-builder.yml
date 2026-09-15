@@ -1,0 +1,33 @@
+appId: llc.yomoo.mishu
+productName: Mishu
+asar: true
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - resources/tray/**
+  - package.json
+  - '!**/*.map'
+  - '!**/*.test.*'
+  - '!**/*.md'
+  - '!**/{test,tests,__tests__,docs,skills,scripts}/**'
+extraResources:
+  - from: ../cli/mishu.mjs
+    to: cli/mishu.mjs
+mac:
+  category: public.app-category.utilities
+  target:
+    - target: dir
+      arch:
+        - arm64
+    - target: dmg
+      arch:
+        - arm64
+  icon: build/icon.icns
+  identity: '-'
+  hardenedRuntime: false
+  extendInfo:
+    NSMicrophoneUsageDescription: Mishu needs microphone access for phone calls and human takeover.
+dmg:
+  artifactName: '${productName}-${version}-${arch}.${ext}'

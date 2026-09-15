@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "rule": "twilio-account-sid",
+      "value": "AC00000000000000000000000000000000",
+      "reason": "All-zero Account SID fixture in src/main/config/twilio-token.test.ts. Not a live Twilio account."
+    },
+    {
+      "rule": "twilio-account-sid",
+      "value": "ACaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "reason": "Twilio docs-style fake Account SID used by spikes/cloud-media test doubles. Hex 'aa' padding is not a real account."
+    },
+    {
+      "rule": "twilio-api-key-sid",
+      "value": "SK00000000000000000000000000000000",
+      "reason": "All-zero API Key SID fixture in src/main/config/twilio-token.test.ts."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-proj-fake0000000000001234",
+      "reason": "Literal fake OpenAI project key filled by scripts/capture-settings-ui.mjs for UI screenshots."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-test-paid-eval-secret-aaaa",
+      "reason": "Named test secret in spikes/kb-delegation/run-selector-eval.test.ts; paid-eval guard fixture, not a live key."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-test-live-eval-secret-bbbb",
+      "reason": "Named test secret in spikes/kb-delegation/live/run-live-eval.test.ts; not a live key."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-test-credential-do-not-leak-9f3a",
+      "reason": "Named test secret in spikes/kb-delegation/openai-credentials.test.ts used to assert credentials stay off process listings."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-transport-secret-zzzz",
+      "reason": "Named test secret in spikes/kb-delegation/selector/openai-responses-transport.test.ts."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-from-file-should-be-ignored",
+      "reason": "Named test secret asserting file-sourced keys are ignored when env is set."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-secret-must-not-construct",
+      "reason": "Named test secret in spikes/cloud-media/paid-guard.test.ts asserting paid clients are not constructed without the paid flag."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-fake-local-only",
+      "reason": "Embedded fake marker NEVER_API_sk-fake-local-only in kb-delegation knowledge fixtures; local demo text, not a live key."
+    },
+    {
+      "rule": "openai-api-key",
+      "value": "sk-fake-not-a-real-key",
+      "reason": "Named fake OpenAI key in packages/adapters-cloud/src/model/openai-text-model.port-contract.test.ts. Not a live key."
+    },
+    {
+      "rule": "e164",
+      "pattern": "^\\+1[2-9]\\d{2}555\\d{4}$",
+      "reason": "NANP 555 exchange numbers are reserved for fiction (e.g. +13125550198). Used throughout unit, e2e, and skill fixtures."
+    },
+    {
+      "rule": "e164",
+      "value": "+8613800138000",
+      "reason": "Well-known China Mobile example number used as a non-NANP E.164 fixture in src/renderer/src/services/phone-number.test.ts."
+    },
+    {
+      "rule": "email",
+      "pattern": "@(example\\.(com|org|net|test))$",
+      "reason": "RFC 2606 / reserved example domains used in CRM and kb-delegation tests."
+    },
+    {
+      "rule": "email",
+      "pattern": "@example\\.invalid$",
+      "reason": "RFC 2606 .invalid TLD used as a fake publish-snapshot author in scripts/oss/publish-snapshot.test.ts. Not a live mailbox."
+    }
+  ]
+}

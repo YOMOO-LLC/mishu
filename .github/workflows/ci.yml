@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LIVE_PHONE_USE_MOCKS: '1'
+
+jobs:
+  check:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install
+        # pnpm 11: electron-winstaller build scripts are ignored via allowBuilds in pnpm-workspace.yaml.
+        run: pnpm install --frozen-lockfile
+
+      - name: Boundary lint
+        # Default scan: packages/core, packages/contracts, packages/adapters-*, src/main/{http,services}, apps/cloud.
+        run: pnpm lint:boundaries
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Cloud-reference contract
+        # Same 14 /v1 cases as pnpm test:contract, against apps/cloud. No Electron, no display.
+        run: pnpm test:contract:cloud
+
+      - name: Secret scan (workspace)
+        run: node scripts/oss/secret-scan.mjs --workspace-only
+
+      - name: License audit
+        run: node scripts/oss/license-audit.mjs
+
+  e2e-macos:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: macos-latest
+    timeout-minutes: 45
+    env:
+      LIVE_PHONE_USE_MOCKS: '1'
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Electron e2e (mock mode)
+        run: pnpm test:e2e

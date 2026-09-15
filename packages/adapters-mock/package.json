@@ -1,0 +1,18 @@
+{
+  "name": "@mishu/adapters-mock",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./clock": "./src/clock.ts",
+    "./telephony": "./src/telephony.ts",
+    "./voice": "./src/voice.ts",
+    "./model": "./src/model.ts",
+    "./contract-tests": "./src/contract-tests.ts"
+  },
+  "dependencies": {
+    "@mishu/contracts": "workspace:*",
+    "@mishu/core": "workspace:*"
+  }
+}

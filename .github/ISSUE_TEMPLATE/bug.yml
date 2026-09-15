@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a defect in official Mishu (working name) source or the headless reference host.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Use mock mode and `+1555…` numbers only.
+        Security issues belong in SECURITY.md / GitHub private advisories, not here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Observed behavior. Do not paste secrets, access tokens, Account SIDs, real E.164 numbers, or live transcripts.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Prefer `pnpm test`, `pnpm test:contract:cloud`, or `examples/` with LIVE_PHONE_USE_MOCKS=1.
+      placeholder: |
+        1. pnpm install
+        2. pnpm exec tsx examples/quickstart-api/quickstart.ts
+        3. …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: 0.x.x or git SHA
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: Confirm
+      options:
+        - label: I used mock mode (no live PSTN, no paid APIs).
+          required: true
+        - label: This report contains no secrets, real phone numbers, or customer content.
+          required: true
+        - label: This is not a vulnerability report (those go to SECURITY.md).
+          required: true

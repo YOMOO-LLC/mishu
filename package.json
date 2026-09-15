@@ -1,0 +1,46 @@
+{
+  "name": "mishu",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mishu (working name) — local-first AI secretary engine by YOMOO LLC.",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "lint:boundaries": "node scripts/check-core-imports.mjs",
+    "typecheck": "tsc --noEmit -p apps/desktop/tsconfig.node.json && tsc --noEmit -p apps/desktop/tsconfig.web.json",
+    "test": "vitest run --passWithNoTests",
+    "test:contract": "vitest run --config tests/contract/vitest.config.ts",
+    "test:contract:cloud": "node apps/cloud/scripts/run-contract.mjs",
+    "check": "pnpm lint:boundaries && pnpm typecheck && pnpm test && pnpm test:contract:cloud"
+  },
+  "dependencies": {
+    "@mishu/adapters-cloud": "workspace:*",
+    "@mishu/adapters-mock": "workspace:*",
+    "@mishu/contracts": "workspace:*",
+    "@mishu/core": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@twilio/voice-sdk": "2.18.4",
+    "dotenv": "17.4.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "twilio": "6.1.0",
+    "ws": "8.21.3",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@electron/asar": "3.4.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/ws": "8.18.1",
+    "@vitejs/plugin-react": "5.2.0",
+    "electron": "44.2.0",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vite": "7.3.6",
+    "vitest": "5.0.0"
+  }
+}
